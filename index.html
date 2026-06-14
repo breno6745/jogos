@@ -18,20 +18,13 @@
       --header-h:  60px;
     }
 
-    body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh;
-    }
+    body { background-color: var(--bg-page); color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
 
-    /* CABEÇALHO */
     header { text-align: center; padding: 2.5rem 1rem 1rem; }
     header .logo { font-size: 1.1rem; letter-spacing: .25em; text-transform: uppercase; color: var(--neon); opacity: .7; }
     header h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; margin: .4rem 0 .6rem; }
     header p { font-size: .9rem; color: var(--text-muted); }
 
-    /* BUSCA */
     .search-wrap { display: flex; justify-content: center; padding: 1.5rem 1rem .5rem; }
     #search {
       width: min(400px, 100%); padding: .6rem 1rem; border-radius: 8px;
@@ -41,23 +34,21 @@
     #search:focus { box-shadow: 0 0 0 3px var(--neon-glow); }
     #search::placeholder { color: var(--text-muted); }
 
-    /* GRADE */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1.25rem;
       padding: 1.5rem clamp(1rem, 4vw, 3rem) 3rem;
       max-width: 1200px;
       margin: 0 auto;
     }
 
-    /* CARD — edite onclick="play('URL')" para trocar o jogo */
     .card {
       background: var(--bg-card);
       border: 1px solid transparent;
       border-radius: 12px;
-      padding: 1.4rem .8rem 1.1rem;
-      display: flex; flex-direction: column; align-items: center; gap: .55rem;
+      padding: .75rem .75rem .9rem;
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
       cursor: pointer;
       transition: border-color .25s, box-shadow .25s, transform .2s;
       user-select: none;
@@ -68,13 +59,28 @@
       transform: translateY(-4px);
     }
     .card:active { transform: translateY(-2px); }
-    .card .emoji { font-size: 2.8rem; line-height: 1; }
-    .card .title { font-size: .82rem; font-weight: 600; text-align: center; }
+
+    /* =============================================
+       IMAGEM DO CARD
+       Aceita qualquer formato: .jpg .png .gif .webp
+       ou URL externa (https://...)
+       Proporção fixa 16:9 — a imagem é recortada
+       para preencher sem distorcer (object-fit:cover)
+    ============================================= */
+    .card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      background: #0f172a; /* cor enquanto a imagem carrega */
+    }
+
+    .card .title { font-size: .85rem; font-weight: 600; text-align: center; }
     .card[hidden] { display: none; }
 
     .no-results { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 2rem 0; display: none; }
 
-    /* OVERLAY */
     #overlay { display: none; position: fixed; inset: 0; z-index: 9999; flex-direction: column; background: #000; }
     #overlay.active { display: flex; }
     #overlay-bar {
@@ -107,107 +113,112 @@
 
   <!-- =============================================
        GRADE DE JOGOS
-       Para adicionar: copie um .card e edite:
-         onclick="play('URL_DO_JOGO')"
-         data-title="Nome do Jogo"
-         emoji e .title
+
+       Como editar um card:
+         onclick="play('URL_DO_JOGO', 'Nome')"  ← URL do jogo
+         data-title="Nome"                       ← usado no filtro de busca
+         img src="..."                           ← imagem da capa (veja exemplos abaixo)
+
+       Exemplos de src aceitos:
+         src="imgs/minecraft.png"                ← arquivo local na pasta imgs/
+         src="https://i.imgur.com/abc.jpg"       ← URL externa
+         src="covers/slope.webp"                 ← qualquer formato de imagem
   ============================================= -->
   <main class="grid" id="grid">
 
     <!-- JOGO 1 — Minecraft -->
     <div class="card" onclick="play('https://eaglercraft.com/mc/1.8.8/', 'Minecraft')" data-title="Minecraft">
-      <span class="emoji">⛏️</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Minecraft" alt="Minecraft" />
       <span class="title">Minecraft</span>
     </div>
 
     <!-- JOGO 2 — Among Us -->
     <div class="card" onclick="play('https://www.miniplay.com/embed/among-us-online', 'Among Us')" data-title="Among Us">
-      <span class="emoji">🚀</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Among+Us" alt="Among Us" />
       <span class="title">Among Us</span>
     </div>
 
     <!-- JOGO 3 — Venge.io -->
     <div class="card" onclick="play('https://venge.io', 'Venge.io')" data-title="Venge.io">
-      <span class="emoji">🎯</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Venge.io" alt="Venge.io" />
       <span class="title">Venge.io</span>
     </div>
 
     <!-- JOGO 4 — 1v1.LOL -->
     <div class="card" onclick="play('https://1v1.lol', '1v1.LOL')" data-title="1v1.LOL">
-      <span class="emoji">🏗️</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=1v1.LOL" alt="1v1.LOL" />
       <span class="title">1v1.LOL</span>
     </div>
 
     <!-- JOGO 5 — Retro Bowl -->
-    <div class="card" onclick="play('https://ozogames.com/uploads/games/html5/G/granny%20unblocked%20game/index.html', 'Granny')" data-title="Retro Bowl">
-      <span class="emoji">🏈</span>
-      <span class="title">Granny</span>
+    <div class="card" onclick="play('https://retrobowl.me', 'Retro Bowl')" data-title="Retro Bowl">
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Retro+Bowl" alt="Retro Bowl" />
+      <span class="title">Retro Bowl</span>
     </div>
 
     <!-- JOGO 6 — Slope -->
     <div class="card" onclick="play('https://slope-game.com', 'Slope')" data-title="Slope">
-      <span class="emoji">🎳</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Slope" alt="Slope" />
       <span class="title">Slope</span>
     </div>
 
     <!-- JOGO 7 — Shell Shockers -->
     <div class="card" onclick="play('https://shellshock.io', 'Shell Shockers')" data-title="Shell Shockers">
-      <span class="emoji">🥚</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Shell+Shockers" alt="Shell Shockers" />
       <span class="title">Shell Shockers</span>
     </div>
 
     <!-- JOGO 8 — Krunker.io -->
     <div class="card" onclick="play('https://krunker.io', 'Krunker.io')" data-title="Krunker.io">
-      <span class="emoji">🔫</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Krunker.io" alt="Krunker.io" />
       <span class="title">Krunker.io</span>
     </div>
 
     <!-- JOGO 9 — Agar.io -->
     <div class="card" onclick="play('https://agar.io', 'Agar.io')" data-title="Agar.io">
-      <span class="emoji">🟢</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Agar.io" alt="Agar.io" />
       <span class="title">Agar.io</span>
     </div>
 
     <!-- JOGO 10 — Slither.io -->
     <div class="card" onclick="play('https://slither.io', 'Slither.io')" data-title="Slither.io">
-      <span class="emoji">🐍</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Slither.io" alt="Slither.io" />
       <span class="title">Slither.io</span>
     </div>
 
     <!-- JOGO 11 — Zombs Royale -->
     <div class="card" onclick="play('https://zombsroyale.io', 'Zombs Royale')" data-title="Zombs Royale">
-      <span class="emoji">🧟</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Zombs+Royale" alt="Zombs Royale" />
       <span class="title">Zombs Royale</span>
     </div>
 
     <!-- JOGO 12 — Paper.io 2 -->
     <div class="card" onclick="play('https://paper-io.com', 'Paper.io 2')" data-title="Paper.io 2">
-      <span class="emoji">📄</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Paper.io+2" alt="Paper.io 2" />
       <span class="title">Paper.io 2</span>
     </div>
 
     <!-- JOGO 13 — Surviv.io -->
     <div class="card" onclick="play('https://surviv.io', 'Surviv.io')" data-title="Surviv.io">
-      <span class="emoji">🪖</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Surviv.io" alt="Surviv.io" />
       <span class="title">Surviv.io</span>
     </div>
 
     <!-- JOGO 14 — Diep.io -->
     <div class="card" onclick="play('https://diep.io', 'Diep.io')" data-title="Diep.io">
-      <span class="emoji">🔵</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Diep.io" alt="Diep.io" />
       <span class="title">Diep.io</span>
     </div>
 
     <!-- JOGO 15 — Wormate.io -->
     <div class="card" onclick="play('https://wormate.io', 'Wormate.io')" data-title="Wormate.io">
-      <span class="emoji">🍭</span>
+      <img src="https://placehold.co/320x180/1e293b/38bdf8?text=Wormate.io" alt="Wormate.io" />
       <span class="title">Wormate.io</span>
     </div>
 
     <p class="no-results" id="no-results">Nenhum jogo encontrado.</p>
   </main>
 
-  <!-- OVERLAY -->
   <div id="overlay" role="dialog" aria-modal="true" aria-label="Janela do jogo">
     <div id="overlay-bar">
       <span class="game-name" id="overlay-title">Jogo</span>
@@ -225,7 +236,7 @@
     const searchInput  = document.getElementById('search');
     const noResults    = document.getElementById('no-results');
 
-    /* Função global chamada pelo onclick de cada card */
+    /* Abre o jogo no iframe */
     function play(url, title) {
       overlayTitle.textContent = title;
       gameFrame.src = url;
@@ -233,7 +244,7 @@
       document.body.style.overflow = 'hidden';
     }
 
-    /* Fechar overlay */
+    /* Fecha o overlay */
     function closeGame() {
       overlay.classList.remove('active');
       gameFrame.src = 'about:blank';
@@ -245,7 +256,7 @@
       if (e.key === 'Escape' && overlay.classList.contains('active')) closeGame();
     });
 
-    /* Filtro de busca pelo data-title */
+    /* Filtro de busca */
     searchInput.addEventListener('input', () => {
       const q = searchInput.value.trim().toLowerCase();
       let visible = 0;
